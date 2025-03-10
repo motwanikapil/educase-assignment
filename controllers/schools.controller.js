@@ -1,12 +1,13 @@
 const { db } = require("../utils/db");
+require("../models/schools.model");
 const haversine = require("haversine-distance");
 
 async function getAllSchools(req, res) {
   const { lat, long } = req.query;
 
   // Validate input
-  const latitude = Number.parseFloat(lat);
-  const longitude = Number.parseFloat(long);
+  const latitude = Number(lat);
+  const longitude = Number(long);
 
   if (
     !latitude ||
@@ -29,15 +30,15 @@ async function getAllSchools(req, res) {
       return res.status(500).send("Error fetching schools");
     }
 
-    // Reference point (user's location)
-    const userLocation = { latitude, longitude };
+    // Reference point (school's location)
+    const schoolLocation = { latitude, longitude };
 
     // Calculate Haversine distance and sort results
     const sortedSchools = results
       .map((school) => {
-        const schoolLocation = {
-          latitude: Number.parseFloat(school.latitude),
-          longitude: Number.parseFloat(school.longitude),
+        const userLocation = {
+          latitude: Number(school.latitude),
+          longitude: Number(school.longitude),
         };
 
         // Compute distance

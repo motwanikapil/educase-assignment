@@ -1,5 +1,6 @@
 require("dotenv").config();
 require("./utils/db");
+
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
